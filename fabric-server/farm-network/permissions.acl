@@ -1,0 +1,96 @@
+rule EverybodyCanReadEverything {
+    description: "Allow all participants read access to all resources"
+    participant: "org.farm.network.User"
+    operation: READ
+    resource: "org.farm.network.*"
+    action: ALLOW
+}
+
+rule EverybodyCanSubmitTransactions {
+    description: "Allow all participants to submit transactions"
+    participant: "org.farm.network.User"
+    operation: CREATE
+    resource: "org.farm.network.stockTransaction"
+    action: ALLOW
+}
+
+rule EverybodyCanNotify {
+    description: "Allow all participants to submit transactions"
+    participant: "org.farm.network.User"
+    operation: CREATE
+    resource: "org.farm.network.stockReady"
+    action: ALLOW
+}
+
+rule EverybodyCanTransferShare {
+    description: "Allow all participants to submit transactions"
+    participant: "org.farm.network.User"
+    operation: CREATE
+    resource: "org.farm.network.transferShare"
+    action: ALLOW
+}
+
+rule UserHasFullAccessToGlobalAssets {
+    description: "Allow all participants full access to their assets"
+    participant: "org.farm.network.User"
+    operation: ALL
+    resource: "org.farm.network.Commodity"
+    action: ALLOW
+} 
+
+rule OwnerHasFullAccessToTheirAssets {
+    description: "Allow all participants full access to their assets"
+    participant(p): "org.farm.network.User"
+    operation: ALL
+    resource(r): "org.farm.network.Crop"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule OwnerHasFullAccessToRequests {
+    description: "Allow all participants full access to their Requests"
+    participant: "org.farm.network.User"
+    operation: ALL
+    resource: "org.farm.network.StockRequest"
+    action: ALLOW
+}
+
+rule OwnerHasFullAccessToMessage {
+    description: "Allow all participants full access to their Messages"
+    participant: "org.farm.network.User"
+    operation: ALL
+    resource: "org.farm.network.Messages"
+    action: ALLOW
+}
+
+rule OwnerHasFullAccessToShare {
+    description: "Allow all participants full access to their share"
+    participant: "org.farm.network.User"
+    operation: ALL
+    resource: "org.farm.network.Share"
+    action: ALLOW
+}
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
